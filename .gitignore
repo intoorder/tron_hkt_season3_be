@@ -1,0 +1,9 @@
+# Node Modules
+node_modules/
+dist/
+
+# System Files
+.DS_Store
+
+# Yarn
+yarn-error.log

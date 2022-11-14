@@ -1,0 +1,45 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id              String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  address         String    @unique
+  random_number   Int
+  token_total     Int       @default(0)
+  last_updated_at DateTime?
+}
+
+model withdrawal {
+  id      String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id String @db.Uuid
+  address String
+
+  amount       Decimal @default(0) @db.Decimal(30, 18)
+  fee          Decimal @default(0) @db.Decimal(30, 18)
+  tx_address   String?
+  tx_hash      String?
+  status       Int?
+  message      String?
+  block_hash   String?
+  block_number String?
+  confirms     Int     @default(0)
+
+  created_at DateTime?
+  updated_at DateTime?
+}
+
+model system_config {
+  id    String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  key   String @unique
+  value String
+
+  created_at DateTime?
+  updated_at DateTime?
+}
